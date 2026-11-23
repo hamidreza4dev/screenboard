@@ -56,6 +56,10 @@ Developer ID:
 SIGN_IDENTITY="Developer ID Application: …" ./scripts/build-app.sh
 ```
 
+GitHub also builds the app on every push. Open a run under **Actions** and
+download **ScreenBoard** to get the zipped app. Push a tag like `v1.0.0` and
+the zip is attached to a new release too.
+
 The app can't run in Apple's sandbox, because blocking input isn't allowed
 from inside it.
 
