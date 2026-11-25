@@ -3,6 +3,12 @@
 A small Mac app that stops your keyboard, trackpad and screen from reacting
 while you wipe them clean. It needs macOS 26 or later.
 
+<p align="center">
+  <a href="docs/demo.mp4">
+    <img src="docs/demo.webp" width="800" alt="Demo: allowing access, choosing parts to clean, locking everything, then unlocking with Esc three times">
+  </a>
+</p>
+
 ## How to use it
 
 1. Turn on the parts you want to clean: **Keyboard**, **Trackpad**, and
