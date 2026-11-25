@@ -25,7 +25,7 @@ final class LockController {
     var errorMessage: String?
     private(set) var isTrusted = AXIsProcessTrusted()
     /// Screen cleaning is only offered when a display takes touch input.
-    private(set) var hasTouchScreen = TouchScreen.isAvailable
+    private(set) var hasTouchScreen = LockController.detectTouchScreen()
 
     /// Devices this Mac can lock, in display order.
     var availableModes: [LockMode] {
@@ -84,9 +84,6 @@ final class LockController {
         guard let state = defaults.string(forKey: "previewState") else { return }
         isPreview = true
         isTrusted = defaults.bool(forKey: "previewUntrusted") ? false : true
-        if defaults.object(forKey: "previewTouchScreen") != nil {
-            hasTouchScreen = defaults.bool(forKey: "previewTouchScreen")
-        }
         let modes = Set((defaults.string(forKey: "previewModes") ?? "")
             .split(separator: ",").compactMap { LockMode(rawValue: String($0)) })
         switch state {
@@ -106,8 +103,15 @@ final class LockController {
     }
 
     func refreshTouchScreen() {
-        guard !isPreview else { return }
-        hasTouchScreen = TouchScreen.isAvailable
+        hasTouchScreen = Self.detectTouchScreen()
+    }
+
+    /// `-previewTouchScreen YES|NO` overrides detection for one launch. It
+    /// works with or without `-previewState`, and locking stays real.
+    private static func detectTouchScreen() -> Bool {
+        let defaults = UserDefaults.standard
+        guard defaults.object(forKey: "previewTouchScreen") != nil else { return TouchScreen.isAvailable }
+        return defaults.bool(forKey: "previewTouchScreen")
     }
 
     // MARK: Permissions
